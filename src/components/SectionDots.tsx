@@ -12,8 +12,8 @@ const SECTIONS = [
   { id: "experience",    label: "Experience"    },
   { id: "clubs",         label: "Leadership"    },
   { id: "volunteering",  label: "Conferences"   },
-  { id: "art",           label: "Art"           },
   { id: "certifications",label: "Certificates"  },
+  { id: "art",           label: "Art"           },
   { id: "gallery",       label: "Gallery"       },
   { id: "contact",       label: "Contact"       },
 ];

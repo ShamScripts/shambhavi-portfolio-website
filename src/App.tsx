@@ -54,9 +54,9 @@ export default function App() {
         <div className="section-divider" />
         <Volunteering />
         <div className="section-divider" />
-        <div className="section-alt"><Art /></div>
-        <div className="section-divider" />
         <Certifications />
+        <div className="section-divider" />
+        <div className="section-alt"><Art /></div>
         <div className="section-divider" />
         <Gallery />
         <div className="section-divider" />

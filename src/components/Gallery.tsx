@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
+import { LazyImage } from "./LazyImage";
 import { galleryPhotos, galleryCategories, type GalleryCategory } from "@/data/gallery";
 
 const CAT_COLORS: Record<GalleryCategory, string> = {
@@ -78,8 +79,8 @@ export function Gallery() {
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((photo, idx) => {
-              const [imgErr, setImgErr] = useState(false);
               const col = CAT_COLORS[photo.category];
+              const minH = photo.aspect === "portrait" ? 280 : photo.aspect === "landscape" ? 160 : 200;
 
               return (
                 <motion.div
@@ -90,7 +91,7 @@ export function Gallery() {
                   exit={{ opacity: 0, scale: 0.88 }}
                   transition={{ duration: 0.3 }}
                   className="group relative mb-3 cursor-pointer overflow-hidden rounded-2xl border border-white/[0.06] bg-[rgba(17,19,26,0.9)] break-inside-avoid transition-all duration-300"
-                  style={{ minHeight: photo.aspect === "portrait" ? 280 : photo.aspect === "landscape" ? 160 : 200 }}
+                  style={{ minHeight: minH }}
                   onClick={() => openLightbox(idx)}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.borderColor = `${col}50`;
@@ -103,23 +104,12 @@ export function Gallery() {
                     (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
                   }}
                 >
-                  {imgErr ? (
-                    <div
-                      className="flex items-center justify-center rounded-xl text-[10px] text-[var(--muted)] opacity-50"
-                      style={{ minHeight: photo.aspect === "portrait" ? 280 : photo.aspect === "landscape" ? 160 : 200, background: `${col}0a`, border: `1px dashed ${col}30` }}
-                    >
-                      {photo.caption}
-                    </div>
-                  ) : (
-                    <img
-                      src={photo.src}
-                      alt={photo.caption}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={() => setImgErr(true)}
-                      style={{ minHeight: photo.aspect === "portrait" ? 280 : photo.aspect === "landscape" ? 160 : 200 }}
-                    />
-                  )}
+                  <LazyImage
+                    src={photo.src}
+                    alt={photo.caption}
+                    style={{ minHeight: minH }}
+                    imgClassName="object-cover group-hover:scale-105"
+                  />
 
                   {/* Hover overlay */}
                   <div

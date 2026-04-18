@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading } from "./SectionHeading";
+import { LazyImage } from "./LazyImage";
 import { artPieces } from "@/data/art";
 import { X, ZoomIn, Instagram, ArrowUpRight } from "lucide-react";
 
@@ -82,11 +83,10 @@ export function Art() {
                   (e.currentTarget as HTMLElement).style.transform = "scale(1)";
                 }}
               >
-                <img
+                <LazyImage
                   src={piece.imageSrc}
                   alt={piece.alt}
-                  loading="lazy"
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  imgClassName="object-cover group-hover:scale-105"
                 />
 
                 {/* Hover overlay */}

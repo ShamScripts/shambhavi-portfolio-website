@@ -251,8 +251,23 @@ a { color: inherit; }
 }
 
 /* ── Smooth image loading ── */
-img { transition: opacity 0.3s ease; }
-img[loading] { opacity: 0; }
+img { transition: opacity 0.4s ease; }
+
+/* Shimmer skeleton for image placeholders */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+.img-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(17,19,26,0.9) 25%,
+    rgba(124,58,237,0.07) 50%,
+    rgba(17,19,26,0.9) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
 
 /* ── Paragraph max-width for readability ── */
 .prose-width { max-width: 68ch; }
