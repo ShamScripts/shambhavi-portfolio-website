@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { SectionHeading } from "./SectionHeading";
 import { researchItems } from "@/data/research";
-import { FlaskConical, CheckCircle2 } from "lucide-react";
+import { FlaskConical, CheckCircle2, Github, ExternalLink } from "lucide-react";
 
 const AREA_COLORS = [
   { border: "rgba(124,58,237,0.2)",  glow: "rgba(124,58,237,0.08)", dot: "#7C3AED" },
@@ -69,6 +69,38 @@ export function Research() {
                     </li>
                   ))}
                 </ul>
+
+                {(r.githubUrl || r.demoUrl) && (
+                  <div className="mt-5 flex items-center gap-3 border-t border-white/[0.05] pt-4">
+                    {r.githubUrl && (
+                      <a
+                        href={r.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[var(--muted)] transition hover:text-[var(--text)]"
+                      >
+                        <Github size={13} />
+                        Code
+                      </a>
+                    )}
+                    {r.demoUrl && (
+                      <a
+                        href={r.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-[11px] font-semibold transition-all hover:opacity-90"
+                        style={{
+                          borderColor: col.dot + "55",
+                          color: col.dot,
+                          background: col.glow,
+                        }}
+                      >
+                        <ExternalLink size={11} />
+                        Live Demo
+                      </a>
+                    )}
+                  </div>
+                )}
               </motion.div>
             );
           })}

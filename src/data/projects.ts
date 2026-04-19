@@ -7,6 +7,7 @@ export type Project = {
   result: string;
   details?: string[];
   githubUrl: string;
+  demoUrl?: string;
 };
 
 export const projectCategories = [
@@ -18,9 +19,9 @@ export const projects: Project[] = [
     title: "Drug Recommendation System",
     period: "ACM-W JuMP",
     category: "Machine Learning",
-    tech: ["Python", "scikit-learn", "Classification", "NLP", "Healthcare ML"],
+    tech: ["Python", "Flask", "scikit-learn", "Classification", "NLP", "Healthcare ML"],
     description:
-      "ML-based healthcare decision-support system predicting diseases from symptoms and generating tailored treatment recommendations, enabling data-driven clinical guidance at scale.",
+      "ML-based healthcare decision-support web app predicting diseases from symptoms and generating tailored treatment recommendations — deployed and accessible online.",
     result:
       "Multi-class classification pipeline driving accurate medication, precaution, and dietary recommendations; demonstrates ML's direct impact on real-world health decision-making.",
     details: [
@@ -28,7 +29,8 @@ export const projects: Project[] = [
       "Classification pipeline evaluated on precision, recall, and F1 on held-out cases.",
       "Part of ACM-W JuMP mentorship with emphasis on responsible healthcare ML.",
     ],
-    githubUrl: "https://github.com/ShamScripts/",
+    githubUrl: "https://github.com/ShamScripts/Medicine-Recommendation-System",
+    demoUrl:   "https://medicine-recommendation-system-jump.onrender.com",
   },
   {
     title: "Employee Attrition Prediction",
@@ -44,38 +46,40 @@ export const projects: Project[] = [
       "Random Forest classifier captures non-linear relationships between features.",
       "Feature importance analysis highlights top attrition drivers for HR decision-making.",
     ],
-    githubUrl: "https://github.com/ShamScripts/",
+    githubUrl: "https://github.com/ShamScripts/Employee-Attrition-RF-Model",
   },
   {
     title: "Heart Disease Prediction System",
     period: "2025",
     category: "Machine Learning",
-    tech: ["Python", "Logistic Regression", "Random Forest", "Streamlit", "Feature Engineering"],
+    tech: ["Python", "Logistic Regression", "Random Forest", "SVM", "GridSearchCV", "Feature Engineering"],
     description:
-      "End-to-end predictive pipeline using Logistic Regression and Random Forest for real-time cardiovascular risk assessment, with a deployable Streamlit interface for clinical use.",
+      "End-to-end predictive pipeline using multiple ML models for cardiovascular risk classification, with comparative evaluation and ROC-AUC analysis on clinical patient data.",
     result:
-      "Strong discriminative performance after feature engineering; Streamlit interface enables instant risk estimates from health markers, bridging ML output with usable decision support.",
+      "Strong discriminative performance after hyperparameter tuning via GridSearchCV; comparative analysis across Logistic Regression, Random Forest, and SVM with full classification reports.",
     details: [
       "Data preprocessing, feature engineering, and comparative model evaluation.",
-      "Streamlit interface allows clinicians and users to input health markers and get instant risk estimates.",
+      "GridSearchCV hyperparameter tuning for optimal model performance.",
+      "ROC-AUC, confusion matrices, and classification reports for all models.",
     ],
-    githubUrl: "https://github.com/ShamScripts/",
+    githubUrl: "https://github.com/ShamScripts/Heart-Disease-Classification-End-to-End-ML-Project",
   },
   {
-    title: "Retail Data Analytics & Visualization Platform",
+    title: "Retail Analytics & Sales Forecasting",
     period: "2024",
     category: "Data & Analytics",
-    tech: ["Python", "Power BI", "Pandas", "Excel", "Dashboards"],
+    tech: ["Python", "XGBoost", "Streamlit", "Plotly", "Pandas", "Time Series"],
     description:
-      "Analytics platform turning raw retail sales data into actionable business intelligence, surfacing customer behavior trends, product performance gaps, and regional expansion opportunities.",
+      "End-to-end retail analytics platform with interactive dashboards, XGBoost-based sales forecasting, batch prediction, and PDF/Excel report export — deployed on Render.",
     result:
-      "Interactive Power BI dashboards deliver KPIs and revenue patterns to non-technical stakeholders; insights directly support product improvement and data-driven regional growth decisions.",
+      "Interactive Streamlit dashboards deliver KPIs, feature importance, and time-series forecasts; batch prediction tool enables scalable sales planning for non-technical stakeholders.",
     details: [
-      "Customer purchasing behavior and product performance analysis.",
-      "Regional market expansion insights derived from sales segmentation.",
-      "Power BI dashboards built for non-technical stakeholder consumption.",
+      "XGBoost Regressor with custom feature importance scoring and classification thresholds.",
+      "Time series visualization and forecast with configurable date range and horizons.",
+      "PDF and Excel report generation for business use.",
     ],
-    githubUrl: "https://github.com/ShamScripts/",
+    githubUrl: "https://github.com/ShamScripts/Retail-Analytics-And-Sales-Forecasting-2B765",
+    demoUrl:   "https://retail-analytics-and-sales-forecasting.onrender.com",
   },
   {
     title: "College Management System",
@@ -91,7 +95,7 @@ export const projects: Project[] = [
       "Role-based access for students, faculty, parents, and admins.",
       "Operational dashboards with real-time data updates.",
     ],
-    githubUrl: "https://github.com/ShamScripts/",
+    githubUrl: "https://github.com/ShamScripts/CMS",
   },
   {
     title: "Magnetic Field Localization System (WPT)",
@@ -122,7 +126,7 @@ export const projects: Project[] = [
       "Identifies gaps in prior defect-prediction literature.",
       "Framework: code representation learning combined with ML models.",
     ],
-    githubUrl: "https://github.com/ShamScripts/",
+    githubUrl: "https://github.com/ShamScripts/SFP-CPDP-DesProj",
   },
   {
     title: "CRM Follow-Up Management System",
@@ -137,7 +141,23 @@ export const projects: Project[] = [
       "Client requirement discussions and real-world CRM workflow exposure.",
       "Workflow documentation and internal data organization improvements.",
     ],
-    githubUrl: "https://github.com/ShamScripts/",
+    githubUrl: "https://github.com/ShamScripts/CRMTool_Project",
+  },
+  {
+    title: "Mini Compiler",
+    period: "CS F363 · 2025",
+    category: "Systems & Web",
+    tech: ["Python", "Lexical Analysis", "Parsing", "AST", "Semantic Analysis", "Compiler Design"],
+    description:
+      "Full compiler pipeline built from scratch in Python for CS F363, implementing lexical analysis, recursive-descent parsing, AST construction, scoped symbol tables, and semantic analysis.",
+    result:
+      "End-to-end compiler phases from source code to semantic validation; supports LL(1) and SLR(1) parser evaluation with full FIRST/FOLLOW table generation and trace output.",
+    details: [
+      "Implements lexer, recursive-descent parser, AST, LL(1) and SLR(1) parsers with trace.",
+      "Scoped symbol table with nested scope resolution and semantic checks.",
+      "Modular architecture: 10+ independent Python modules across compiler phases.",
+    ],
+    githubUrl: "https://github.com/ShamScripts/mini_compiler",
   },
   {
     title: "Hackathon Builds",

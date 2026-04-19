@@ -7,6 +7,7 @@ export const researchItems = [
       "Designs a framework that integrates code representation learning with ML models to improve fault prediction accuracy.",
       "Evaluates performance using accuracy, precision, recall, and F1-score on benchmark defect datasets.",
     ],
+    githubUrl: "https://github.com/ShamScripts/SFP-CPDP-DesProj",
   },
   {
     title: "Magnetic Field Localization for Near-Field Wireless Power Transfer",
@@ -31,8 +32,10 @@ export const researchItems = [
     period: "Ongoing",
     points: [
       "Proposes a hybrid AI framework combining supervised learning, deep learning, and anomaly detection to identify hidden revenue leakage in complex transactional systems.",
-      "Multi-stage pipeline: Gradient Boosting Decision Trees for pattern learning → attention-based neural models for complex feature interactions → unsupervised anomaly detection for previously unseen irregularities.",
+      "Multi-stage pipeline: Gradient Boosting Decision Trees for pattern learning, attention-based neural models for complex feature interactions, and unsupervised anomaly detection for previously unseen irregularities.",
       "Addresses highly imbalanced financial datasets; evaluated with recall, F1-score, and AUC to prioritise detection of critical revenue leak cases over traditional rule-based auditing methods.",
     ],
+    githubUrl: "https://github.com/ShamScripts/AI-Revenue-Loss-Detection",
+    demoUrl:   "https://ai-revenue-loss-detection-mlproject-ss.streamlit.app",
   },
 ];
