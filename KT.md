@@ -4,7 +4,7 @@
 **Project:** `shambhavi-vite-portfolio`
 **Location:** `e:\New folder\personal_website\shambhavi-vite-portfolio`
 **Last updated:** April 2026
-**Tech stack:** Vite 5 · React 18 · TypeScript · Tailwind CSS v3 · Framer Motion 11 · Lenis · Lucide React
+**Tech stack:** Vite 5 · React 18 · TypeScript · Tailwind CSS v3 · React Router 7 · Framer Motion 11 · Lenis · Lucide React
 
 ---
 
@@ -42,7 +42,7 @@ shambhavi-vite-portfolio/
 │   ├── avatar/
 │   │   ├── avatar.png               ← Transparent-bg avatar (used in Hero orbital hub)
 │   │   └── profile.png              ← Profile photo (used in About section)
-│   ├── art/                         ← 15 real artwork JPEGs + 6 old SVG placeholders
+│   ├── art/                         ← Artwork JPEGs (see `src/data/art.ts`)
 │   ├── gallery/
 │   │   ├── ACM/                     ← 7 ACM event photos (.jpg)
 │   │   ├── ACMW/                    ← 7 ACM-W photos (.jpg)
@@ -63,17 +63,18 @@ shambhavi-vite-portfolio/
 │   │   ├── Projects.tsx             ← Filterable project cards with impact metrics
 │   │   ├── Research.tsx             ← Research topics grid with bullet points
 │   │   ├── Education.tsx            ← BITS Pilani + DPS Dubai cards
-│   │   ├── Experience.tsx           ← Industry internship timeline cards
+│   │   ├── Experience.tsx           ← Industry internships — two-column grid + cards
 │   │   ├── Clubs.tsx                ← Clubs & Leadership with bullet-point cards
 │   │   ├── Volunteering.tsx         ← Conference volunteering (CINS, WiCoDE, ICAIN)
 │   │   ├── Certifications.tsx       ← Certification cards with provider colours
 │   │   ├── Art.tsx                  ← Artwork masonry gallery with lightbox
 │   │   ├── Gallery.tsx              ← Personal photo gallery with filters + lightbox
-│   │   ├── Contact.tsx              ← Contact form (mailto) + social links
-│   │   ├── Footer.tsx               ← Three-column footer with nav + socials
+│   │   ├── Contact.tsx              ← Full contact page: heading + cards + `ContactMailtoForm` (exported)
+│   │   ├── Footer.tsx               ← Four columns: brand + Find me on · mailto form · Navigate · Reach out
+│   │   ├── PageLayout.tsx           ← Global shell: particles, nav, `<Outlet />`, footer
 │   │   │
 │   │   ├── FloatingNav.tsx          ← Scroll-triggered floating pill navbar
-│   │   ├── SectionDots.tsx          ← Right-side scroll progress dots
+│   │   ├── SectionDots.tsx          ← Right-side section dots (defined; not mounted in app)
 │   │   ├── BackToTop.tsx            ← Fixed back-to-top button
 │   │   ├── ParticleBackground.tsx   ← Animated particle canvas background
 │   │   ├── ScrollProgress.tsx       ← Top progress bar + cursor glow
@@ -92,20 +93,28 @@ shambhavi-vite-portfolio/
 │   │   ├── gallery.ts               ← Photo gallery metadata (caption, category, path)
 │   │   └── volunteering.ts          ← Conference volunteering entries
 │   │
+│   ├── pages/                       ← One file per route — each imports section component(s)
+│   │   ├── HomePage.tsx             ← Hero only (landing)
+│   │   ├── AboutPage.tsx            ← … (mirrors route list in `App.tsx`)
+│   │   ├── ContactPage.tsx          ← Full `<Contact />` section
+│   │   └── …                        ← Skills, Projects, Research, Education, Experience, Leadership,
+│   │                                ← Certifications, Art, Gallery
+│   │
 │   ├── hooks/
 │   │   └── useSmoothScroll.ts       ← Lenis smooth scroll initialisation
 │   │
 │   ├── lib/
 │   │   └── utils.ts                 ← cn() helper for conditional class merging
 │   │
-│   ├── App.tsx                      ← Root layout — section order lives here
-│   ├── main.tsx                     ← React entry point
+│   ├── App.tsx                      ← `<Routes>`: path → page; wraps all in `<PageLayout />`
+│   ├── main.tsx                     ← React entry (`<BrowserRouter>`)
 │   └── index.css                    ← Global styles, CSS variables, utility classes
 │
 ├── index.html                       ← HTML entry (title, OG meta tags, Google Fonts)
 ├── .gitignore                       ← Excludes node_modules, dist, .env
 ├── .gitattributes                   ← Consistent LF line endings, images as binary
 ├── README.md                        ← Public-facing project README
+├── KT.md                            ← Knowledge transfer (this document)
 ├── vite.config.ts                   ← Vite config (@/ path alias → src/)
 ├── tailwind.config.ts               ← Tailwind theme (colors, fonts)
 ├── tsconfig.app.json                ← TypeScript config
@@ -163,53 +172,48 @@ Loaded via Google Fonts in `index.html`. Font classes: `font-display` (Syne), `f
 
 ---
 
-## 4. Page Section Order
+## 4. Routing & Page Map
 
-Defined in `src/App.tsx`. Current order top to bottom:
+The app is a **multi-page SPA**: `BrowserRouter` in `src/main.tsx`, route table in `src/App.tsx`, shared chrome in `src/components/PageLayout.tsx` (particles, grain, scroll UI, `FloatingNav`, **Footer** on every route).
 
-```
-Hero              → id="home"
-About             → id="about"
-WhatIBring        → id="what-i-bring"
-Skills            → id="skills"
-Projects          → id="projects"
-Research          → id="research"
-Education         → id="education"
-Experience        → id="experience"
-Clubs             → id="clubs"
-Volunteering      → id="volunteering"
-Certifications    → id="certifications"
-Art               → id="art"
-Gallery           → id="gallery"
-Contact           → id="contact"
-Footer
-```
+| Path | Page component | Section component(s) | Main `id` (for anchors) |
+|------|----------------|----------------------|-------------------------|
+| `/` | `HomePage` | `Hero` only | `home` |
+| `/about` | `AboutPage` | `About`, `WhatIBring` | `about`, `what-i-bring` |
+| `/skills` | `SkillsPage` | `Skills` | `skills` |
+| `/projects` | `ProjectsPage` | `Projects` | `projects` |
+| `/research` | `ResearchPage` | `Research` | `research` |
+| `/education` | `EducationPage` | `Education` | `education` |
+| `/experience` | `ExperiencePage` | `Experience` | `experience` |
+| `/leadership` | `LeadershipPage` | `Clubs`, `Volunteering` | `clubs`, `volunteering` |
+| `/certifications` | `CertificationsPage` | `Certifications` | `certifications` |
+| `/art` | `ArtPage` | `Art` | `art` |
+| `/gallery` | `GalleryPage` | `Gallery` | `gallery` |
+| `/contact` | `ContactPage` | Full `Contact` section (`id="contact"`) | `contact` |
 
-To reorder, cut/paste the `<ComponentName />` lines and their surrounding `<div className="section-divider" />` in `App.tsx`. Also update `SectionDots.tsx` to match.
+**Contact elsewhere:** The home page does **not** include the full Contact section. The **footer** embeds `ContactMailtoForm` (compact), a **Find me on** card, and **Reach out** (email/phone with icons) on every page.
+
+To add or reorder **routes**, edit `src/App.tsx` and create or wire a file under `src/pages/`.
 
 ---
 
 ## 5. Navigation Components
 
 ### FloatingNav (`src/components/FloatingNav.tsx`)
-- Appears after scrolling 480px past the top
-- Desktop: pill with logo "SJ", nav links, GitHub + LinkedIn icons
-- Mobile: hamburger dropdown menu
-- Active section highlighted via `IntersectionObserver`
-- Links: About · Projects · Education · Experience · Clubs · Art · Gallery · Contact
+- On `/`: hidden until the user scrolls **~480px**; on all other routes it shows immediately
+- Desktop: pill with logo **SJ** (links home), **React Router** `NavLink`s, GitHub + LinkedIn icons
+- Mobile: hamburger dropdown
+- **Active route** styling via `NavLink` (not `IntersectionObserver`)
+- **Links:** About · Skills · Projects · Research · Education · Experience · Leadership · Art · Gallery · Contact
 
 To add/remove links, edit the `NAV_LINKS` array at the top of `FloatingNav.tsx`.
 
-### SectionDots (`src/components/SectionDots.tsx`)
-- Fixed right-side dots, one per section, hidden on mobile
-- Hover reveals a label tooltip
-- Active dot has a glowing purple ring
-- Tracks all 14 sections via `IntersectionObserver`
+### Footer (`src/components/Footer.tsx`)
+- Responsive **grid**: brand + **Find me on** (GitHub / LinkedIn / Instagram cards) · **Contact** mailto form (`ContactMailtoForm` compact) · **Navigate** · **Reach out** (intro + email/phone with icon boxes)
+- Same footer on every page (rendered by `PageLayout`)
 
-To add a new section dot, append to the `SECTIONS` array in `SectionDots.tsx`:
-```ts
-{ id: "your-section-id", label: "Label" },
-```
+### SectionDots (`src/components/SectionDots.tsx`)
+- Component exists (fixed right-side dots + labels) but is **not imported** in the live app. Safe to ignore unless you wire it into `PageLayout` or a page.
 
 ---
 
@@ -302,7 +306,7 @@ Currently has two entries: BITS Pilani Dubai (purple card) and DPS Dubai (cyan c
   alt: "Description for accessibility",
 },
 ```
-Add image files to `public/art/`, then add an entry here.
+Add image files to `public/art/`, then add an entry here. Use **specific titles** (e.g. medium, subject, Madhubani motif) — avoid generic placeholders like "Composition I".
 **Note:** filenames with spaces must be URL-encoded in the `imageSrc` path (space → `%20`, `(` → `%28`, `)` → `%29`).
 
 ### 6.8 Photo Gallery — `src/data/gallery.ts`
@@ -316,6 +320,8 @@ Add image files to `public/art/`, then add an entry here.
 },
 ```
 Put photos in the matching subfolder under `public/gallery/`. Folder names with spaces need URL-encoding in `src` (`COLLEGE EVENTS` → `COLLEGE%20EVENTS`).
+
+**Captions:** Prefer **specific, story-style** labels (event name, role, year) instead of generic text like "College event". Edit `caption` per photo in this file.
 
 ### 6.9 Volunteering — `src/data/volunteering.ts`
 ```ts
@@ -429,6 +435,7 @@ Vercel picks it up and redeploys in ~60 seconds.
 |---------|---------|---------|
 | `react` | ^18.3 | UI framework |
 | `react-dom` | ^18.3 | DOM rendering |
+| `react-router-dom` | ^7 | Client-side routing (`BrowserRouter`, `Routes`, `Route`) |
 | `framer-motion` | ^11 | Scroll animations, transitions, spring physics |
 | `lenis` | ^1.3 | Premium smooth scroll |
 | `lucide-react` | ^0.468 | Icon library |
@@ -459,9 +466,12 @@ Vercel picks it up and redeploys in ~60 seconds.
 | Profile photo (About section) | `public/avatar/profile.png` |
 | Resume download | `public/resume.pdf` |
 | Page title / SEO / OG tags | `index.html` |
-| Section order | `src/App.tsx` |
+| Routes / which page loads which section | `src/App.tsx` + `src/pages/*` |
+| Footer layout, Find me on, Reach out, footer contact form | `src/components/Footer.tsx` |
+| Full contact page + shared mailto form component | `src/components/Contact.tsx` (`Contact`, `ContactMailtoForm`) |
+| Global shell (nav, footer, particles) | `src/components/PageLayout.tsx` |
 | Floating nav links | `src/components/FloatingNav.tsx` → `NAV_LINKS` |
-| Right-side section dots | `src/components/SectionDots.tsx` → `SECTIONS` |
+| Right-side section dots (if enabled) | `src/components/SectionDots.tsx` → `SECTIONS` |
 | Hero typing roles | `src/components/Hero.tsx` → `ROLES` array |
 | Hero radial nav buttons | `src/components/Hero.tsx` → `RADIAL_ITEMS` array |
 | Hero stats (10+ projects etc.) | `src/components/Hero.tsx` → `STATS` array |
@@ -475,12 +485,12 @@ Vercel picks it up and redeploys in ~60 seconds.
 
 ## 13. Common Tasks
 
-### Add a new section
-1. Create `src/components/NewSection.tsx` with `id="new-section"` on the root `<section>`
-2. Add a data file `src/data/newSection.ts` if needed
-3. Import and add `<NewSection />` in `src/App.tsx` at the correct position
-4. Add to `SECTIONS` in `src/components/SectionDots.tsx`
-5. Optionally add to `NAV_LINKS` in `src/components/FloatingNav.tsx`
+### Add a new page (route)
+1. Create `src/components/NewSection.tsx` with `id="new-section"` on the root `<section>` if it is a new UI block
+2. Create `src/pages/NewPage.tsx` that renders the section(s)
+3. Add `<Route path="/new" element={<NewPage />} />` inside the `PageLayout` route in `src/App.tsx`
+4. Add `{ label: "New", to: "/new" }` to `NAV_LINKS` in `FloatingNav.tsx` (and `Footer.tsx` `QUICK_LINKS` if it should appear in the footer)
+5. If using `SectionDots`, append `{ id: "new-section", label: "..." }` to `SECTIONS`
 
 ### Add a new project category
 In `src/data/projects.ts`, add the new string to the `projectCategories` array. The filter pill appears automatically.
@@ -489,11 +499,11 @@ In `src/data/projects.ts`, add the new string to the `projectCategories` array. 
 Edit in `src/index.css` → `--primary: #your-hex;` and in `tailwind.config.ts` → `primary: "#your-hex"`.
 
 ### Disable the particle background
-In `src/App.tsx`, comment out `<ParticleBackground />`.
+In `src/components/PageLayout.tsx`, comment out `<ParticleBackground />`.
 
 ### Disable the grain texture
-In `src/App.tsx`, comment out `<div className="grain-overlay" aria-hidden />`.
+In `src/components/PageLayout.tsx`, comment out `<div className="grain-overlay" aria-hidden />`.
 
 ---
 
-*Document updated April 2026.*
+*Document updated April 2026 — reflects multi-route layout, footer contact blocks, and content conventions for art/gallery.*
