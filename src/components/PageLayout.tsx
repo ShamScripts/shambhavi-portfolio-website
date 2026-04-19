@@ -4,13 +4,11 @@ import { ParticleBackground } from "./ParticleBackground";
 import { ScrollProgress } from "./ScrollProgress";
 import { BackToTop } from "./BackToTop";
 import { FloatingNav } from "./FloatingNav";
-import { Contact } from "./Contact";
 import { Footer } from "./Footer";
 import { ScrollToTop } from "./ScrollToTop";
 
 export function PageLayout() {
   const { pathname } = useLocation();
-  const isContact = pathname === "/contact";
 
   return (
     <div className="relative min-h-screen bg-background text-[var(--text)]">
@@ -37,13 +35,6 @@ export function PageLayout() {
         </AnimatePresence>
       </main>
 
-      {/* Contact + Footer on every page; skip Contact card on /contact since it IS the page */}
-      {!isContact && (
-        <>
-          <div className="section-divider" />
-          <Contact />
-        </>
-      )}
       <Footer />
     </div>
   );

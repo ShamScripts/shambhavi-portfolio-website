@@ -23,16 +23,16 @@ export function Experience() {
     return (
       <motion.div
         key={item.id}
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.45, delay: i * 0.07 }}
-        className="group relative flex gap-5"
+        className="group relative flex h-full gap-4"
       >
-        {/* Timeline dot + line */}
-        <div className="flex flex-col items-center">
+        {/* Role icon (no vertical spine — grid layout) */}
+        <div className="flex shrink-0 flex-col items-center">
           <span
-            className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border"
+            className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full border"
             style={{ background: col.bg, borderColor: col.border, color: col.color }}
           >
             <Briefcase size={15} />
@@ -42,12 +42,11 @@ export function Experience() {
               aria-hidden
             />
           </span>
-          <div className="mt-1 w-px flex-1 bg-gradient-to-b from-white/[0.08] to-transparent" />
         </div>
 
         {/* Card */}
         <div
-          className="mb-6 flex-1 overflow-hidden rounded-xl border bg-[rgba(17,19,26,0.8)] p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5"
+          className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border bg-[rgba(17,19,26,0.8)] p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5"
           style={{
             borderColor: col.border.replace("0.3", "0.12"),
             transition: "border-color 0.3s, box-shadow 0.3s, transform 0.3s",
@@ -120,7 +119,7 @@ export function Experience() {
           highlight="worked & led."
         />
 
-        <div className="max-w-2xl">
+        <div className="grid max-w-5xl gap-6 sm:grid-cols-2">
           {internships.map((item, i) => renderItem(item, i))}
         </div>
       </div>
