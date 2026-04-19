@@ -1,21 +1,32 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
-/**
- * Initialises Lenis smooth scroll and drives it via requestAnimationFrame.
- * Also intercepts all anchor-link clicks so Lenis handles them smoothly.
- */
+/* Module-level singleton so any component can call scrollToTop() */
+let lenisInstance: Lenis | null = null;
+
+export function getLenis() {
+  return lenisInstance;
+}
+
+export function scrollToTop(immediate = false) {
+  if (lenisInstance) {
+    lenisInstance.scrollTo(0, { immediate, duration: immediate ? 0 : 0.6 });
+  } else {
+    window.scrollTo({ top: 0, behavior: immediate ? "instant" : "smooth" });
+  }
+}
+
 export function useSmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.25,          // scroll duration in seconds — higher = silkier
-      easing: (t: number) =>   // custom ease-out-expo for premium feel
-        t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+      duration: 1.25,
+      easing: (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.8,
     });
 
-    /* Drive Lenis on every animation frame */
+    lenisInstance = lenis;
+
     let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
@@ -23,7 +34,7 @@ export function useSmoothScroll() {
     }
     rafId = requestAnimationFrame(raf);
 
-    /* Intercept anchor clicks and let Lenis scroll to the target */
+    /* Only intercept in-page anchor links (#id), not route links */
     function handleAnchorClick(e: MouseEvent) {
       const target = (e.target as HTMLElement).closest("a");
       if (!target) return;
@@ -40,6 +51,7 @@ export function useSmoothScroll() {
       cancelAnimationFrame(rafId);
       document.removeEventListener("click", handleAnchorClick);
       lenis.destroy();
+      lenisInstance = null;
     };
   }, []);
 }

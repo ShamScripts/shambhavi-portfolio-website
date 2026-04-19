@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Github, Linkedin, Instagram } from "lucide-react";
 import { site } from "@/data/site";
 
@@ -8,14 +9,16 @@ const SOCIALS = [
 ];
 
 const QUICK_LINKS = [
-  { label: "About",       href: "#about"        },
-  { label: "Projects",    href: "#projects"     },
-  { label: "Education",   href: "#education"    },
-  { label: "Experience",  href: "#experience"   },
-  { label: "Clubs",       href: "#clubs"        },
-  { label: "Art",         href: "#art"          },
-  { label: "Gallery",     href: "#gallery"      },
-  { label: "Contact",     href: "#contact"      },
+  { label: "About",          to: "/about"          },
+  { label: "Skills",         to: "/skills"         },
+  { label: "Projects",       to: "/projects"       },
+  { label: "Research",       to: "/research"       },
+  { label: "Education",      to: "/education"      },
+  { label: "Experience",     to: "/experience"     },
+  { label: "Leadership",     to: "/leadership"     },
+  { label: "Art",            to: "/art"            },
+  { label: "Gallery",        to: "/gallery"        },
+  { label: "Contact",        to: "/contact"        },
 ];
 
 export function Footer() {
@@ -60,13 +63,13 @@ export function Footer() {
             <p className="mb-3 text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">Navigate</p>
             <ul className="space-y-2">
               {QUICK_LINKS.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    className="text-[13px] text-[var(--muted)] transition hover:text-[var(--secondary)]"
+                <li key={l.to}>
+                  <Link
+                    to={l.to}
+                    className="text-[13px] text-[var(--muted)] transition hover:text-[var(--secondary)] no-underline"
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

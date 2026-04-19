@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FolderKanban, Users, Briefcase, Mail, Palette, FlaskConical,
   Brain, BarChart3, Heart, Megaphone,
@@ -23,12 +24,12 @@ function navPos(deg: number) {
 
 /* ─── data ─── */
 const RADIAL_ITEMS = [
-  { label: "Projects",   href: "#projects",   Icon: FolderKanban, deg: 330, color: "#7C3AED" },
-  { label: "Leadership", href: "#clubs",       Icon: Users,        deg: 30,  color: "#F43F5E" },
-  { label: "Experience", href: "#experience",  Icon: Briefcase,    deg: 90,  color: "#22D3EE" },
-  { label: "Contact",    href: "#contact",     Icon: Mail,         deg: 150, color: "#7C3AED" },
-  { label: "Art",        href: "#art",         Icon: Palette,      deg: 210, color: "#F43F5E" },
-  { label: "Research",   href: "#research",    Icon: FlaskConical, deg: 270, color: "#22D3EE" },
+  { label: "Projects",   to: "/projects",   Icon: FolderKanban, deg: 330, color: "#7C3AED" },
+  { label: "Leadership", to: "/leadership", Icon: Users,        deg: 30,  color: "#F43F5E" },
+  { label: "Experience", to: "/experience", Icon: Briefcase,    deg: 90,  color: "#22D3EE" },
+  { label: "Contact",    to: "/contact",    Icon: Mail,         deg: 150, color: "#7C3AED" },
+  { label: "Art",        to: "/art",        Icon: Palette,      deg: 210, color: "#F43F5E" },
+  { label: "Research",   to: "/research",   Icon: FlaskConical, deg: 270, color: "#22D3EE" },
 ];
 
 const FOCUS_AREAS = [
@@ -54,6 +55,7 @@ const ROLES = [
 
 /* ─── component ─── */
 export function Hero() {
+  const navigate = useNavigate();
   const [display, setDisplay] = useState("");
   const [avatarErr, setAvatarErr] = useState(false);
 
@@ -222,16 +224,17 @@ export function Hero() {
               const { left, top } = navPos(item.deg);
               const NavIcon = item.Icon;
               return (
-                <motion.a
+                <motion.div
                   key={item.label}
-                  href={item.href}
+                  role="link"
+                  onClick={() => navigate(item.to)}
                   initial={{ opacity: 0, scale: 0.3 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.55, delay: 0.5 + i * 0.09, type: "spring", stiffness: 240, damping: 20 }}
                   whileHover={{ scale: 1.18 }}
                   whileTap={{ scale: 0.9 }}
-                  style={{ position: "absolute", left, top, width: 56 }}
-                  className="flex flex-col items-center gap-1.5 no-underline z-20"
+                  style={{ position: "absolute", left, top, width: 56, cursor: "pointer" }}
+                  className="flex flex-col items-center gap-1.5 z-20"
                 >
                   <div
                     className="flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-200"
@@ -262,7 +265,7 @@ export function Hero() {
                   >
                     {item.label}
                   </span>
-                </motion.a>
+                </motion.div>
               );
             })}
           </div>
@@ -295,12 +298,12 @@ export function Hero() {
               {RADIAL_ITEMS.map((item) => {
                 const NavIcon = item.Icon;
                 return (
-                  <a key={item.label} href={item.href}
+                  <Link key={item.label} to={item.to}
                     className="flex flex-col items-center gap-1.5 rounded-xl border py-3 no-underline transition-all duration-200"
                     style={{ borderColor: `${item.color}30`, background: `${item.color}0a`, color: item.color }}>
                     <NavIcon size={17} strokeWidth={1.6} />
                     <span className="text-[9px] font-bold uppercase tracking-wide">{item.label}</span>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -350,9 +353,9 @@ export function Hero() {
           className="flex flex-col items-center gap-3 mt-5"
         >
           <div className="flex flex-wrap justify-center gap-3">
-            <a href="#projects" className="btn-primary">
+            <Link to="/projects" className="btn-primary">
               View Projects <ArrowRight size={15} />
-            </a>
+            </Link>
             <a href="/resume.pdf" download className="btn-secondary">
               <Download size={15} /> Resume
             </a>
